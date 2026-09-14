@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ANTI-SLOP WEBSITE PLAYBOOK — FIELD MANUAL 01</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #101109;
+    --bg-2: #17180f;
+    --bg-3: #1e2014;
+    --ink: #ebe6d6;
+    --muted: #9a957f;
+    --dim: #5e5b4c;
+    --line: #3a3c2e;
+    --yellow: #e6ff3d;
+    --yellow-dim: #b8cc31;
+    --rust: #d24a1f;
+    --ok: #c8f06a;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); }
+  body {
+    font-family: "IBM Plex Sans", Helvetica, Arial, sans-serif;
+    font-size: 12.5px;
+    line-height: 1.45;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .print-hint {
+    position: sticky; top: 0; z-index: 20;
+    background: var(--yellow); color: #111;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11px; font-weight: 600;
+    letter-spacing: .04em;
+    padding: 10px 18px;
+    text-align: center;
+  }
+  .wrap { max-width: 900px; margin: 0 auto; padding: 28px 28px 80px; }
+  .meta {
+    display: flex; justify-content: space-between; gap: 16px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 9.5px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--muted); border-bottom: 1px solid var(--line); padding-bottom: 8px;
+  }
+  .stamp {
+    display: inline-block;
+    border: 1px solid var(--yellow);
+    color: var(--yellow);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 9px; letter-spacing: .16em;
+    padding: 3px 7px; text-transform: uppercase;
+  }
+  h1, h2, h3, .display {
+    font-family: "Barlow Condensed", Impact, sans-serif;
+    font-weight: 800; letter-spacing: .02em; line-height: .9;
+    margin: 0;
+  }
+  h1 { font-size: 64px; text-transform: uppercase; }
+  h2 {
+    font-size: 34px; text-transform: uppercase;
+    margin: 8px 0 12px; padding-top: 4px;
+  }
+  h3 {
+    font-size: 18px; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--yellow); margin: 22px 0 8px;
+  }
+  p { margin: 0 0 10px; }
+  strong { font-weight: 600; }
+  a { color: var(--yellow); }
+  .lede { font-size: 16px; line-height: 1.4; max-width: 640px; color: var(--ink); }
+  .muted { color: var(--muted); }
+  .rule { border: 0; border-top: 1px solid var(--line); margin: 18px 0; }
+  .rule-y { border: 0; border-top: 2px solid var(--yellow); margin: 10px 0 18px; }
+  .sec {
+    page-break-before: always;
+    padding: 28px 0 8px;
+    border-top: 1px solid var(--line);
+  }
+  .sec:first-of-type { page-break-before: auto; }
+  .kicker {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 10px; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--yellow); margin-bottom: 6px;
+  }
+  .num {
+    font-family: "Barlow Condensed", sans-serif;
+    font-size: 11px; letter-spacing: .2em;
+    color: var(--dim);
+  }
+  ul, ol { margin: 6px 0 14px; padding-left: 18px; }
+  li { margin: 0 0 5px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 24px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+  .box, .callout, .danger, .sheet {
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+    padding: 14px 16px;
+    margin: 12px 0 16px;
+  }
+  .callout { border-left: 3px solid var(--yellow); }
+  .danger { border-left: 3px solid var(--rust); }
+  .sheet { background: var(--bg-3); }
+  .label {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 9px; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 6px;
+  }
+  table { width: 100%; border-collapse: collapse; margin: 10px 0 16px; font-size: 12px; }
+  th, td { border: 1px solid var(--line); padding: 7px 8px; text-align: left; vertical-align: top; }
+  th {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 9.5px; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--yellow); background: var(--bg-3); font-weight: 500;
+  }
+  code, .mono {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11px;
+  }
+  pre {
+    background: #0a0b07;
+    border: 1px solid var(--line);
+    color: var(--ok);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 10.5px; line-height: 1.45;
+    padding: 14px; overflow: auto;
+    white-space: pre-wrap;
+  }
+  .prompt { border-left: 3px solid var(--yellow-dim); }
+  .cover { min-height: 92vh; display: flex; flex-direction: column; justify-content: space-between; padding: 8px 0 20px; }
+  .cover-grid {
+    display: grid; grid-template-columns: 88px 1fr;
+    gap: 18px; align-items: start; margin-top: 40px;
+  }
+  .hash {
+    writing-mode: vertical-rl; transform: rotate(180deg);
+    font-family: "IBM Plex Mono", monospace;
+    letter-spacing: .28em; font-size: 11px; color: var(--dim);
+    border-right: 1px solid var(--line); padding-right: 14px; height: 280px;
+  }
+  .bars { display: flex; gap: 6px; margin: 18px 0 8px; }
+  .bars span { height: 8px; }
+  .bars .y { width: 72px; background: var(--yellow); }
+  .bars .r { width: 18px; background: var(--rust); }
+  .bars .d { width: 120px; background: var(--line); }
+  .toc a { color: var(--ink); text-decoration: none; }
+  .toc td:last-child { color: var(--muted); font-family: "IBM Plex Mono", monospace; font-size: 11px; }
+  .line, .lines {
+    border-bottom: 1px solid var(--line);
+    min-height: 28px; margin: 6px 0;
+  }
+  .lines.tall { min-height: 72px; }
+  .check { display: flex; gap: 8px; align-items: flex-start; margin: 6px 0; }
+  .boxx {
+    width: 12px; height: 12px; margin-top: 3px; flex: 0 0 12px;
+    border: 1px solid var(--yellow);
+  }
+  .foot {
+    display: flex; justify-content: space-between;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 9px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--dim); margin-top: 28px; border-top: 1px solid var(--line); padding-top: 8px;
+  }
+  .pill {
+    display: inline-block; background: var(--yellow); color: #111;
+    font-family: "Barlow Condensed", sans-serif; font-weight: 800;
+    letter-spacing: .08em; padding: 4px 8px; font-size: 13px;
+  }
+  .small { font-size: 11.5px; color: var(--muted); }
+  .ws { page-break-inside: avoid; margin: 18px 0 26px; }
+  .fill-3 .line { margin-bottom: 10px; }
+  @media print {
+    .print-hint { display: none !important; }
+    .wrap { max-width: none; padding: 0; }
+    .cover { min-height: 980px; }
+    .sec { page-break-before: always; }
+    a { text-decoration: none; }
+    pre { break-inside: avoid; }
+    .ws, .box, .callout, .danger, .sheet { break-inside: avoid; }
+  }
+  @page { size: letter; margin: .55in; }
+</style>
+</head>
+<body>
+<div class="print-hint">PRINT THIS IN CHROME → SAVE AS PDF → TURN ON "BACKGROUND GRAPHICS" · LETTER · THIS BANNER WILL DISAPPEAR</div>
+<div class="wrap">
+
+<!-- COVER -->
+<section class="cover">
+  <div class="meta">
+    <span>DOC NO. ASWP-01 · REV 01 · STUDENT EDITION</span>
+    <span>UNCLASSIFIED // TRAINING USE</span>
+  </div>
+  <div>
+    <div class="stamp">Field manual / website construction</div>
+    <div class="bars"><span class="y"></span><span class="r"></span><span class="d"></span></div>
+    <div class="cover-grid">
+      <div class="hash">AI CAN TYPE. YOU HAVE TO DECIDE.</div>
+      <div>
+        <div class="kicker">High school builder handbook</div>
+        <h1>Anti-Slop<br>Website<br>Playbook</h1>
+        <p class="lede" style="margin-top:22px">How to use AI to build a real website without making generic junk — and without pretending you understand code you cannot explain.</p>
+        <p class="muted">You are the director. AI is a fast intern. Interns do not get to make the important calls.</p>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="grid-3">
+      <div class="box" style="margin:0"><div class="label">Audience</div>Student who has never coded. Coach nearby.</div>
+      <div class="box" style="margin:0"><div class="label">Method</div>Vibe coding allowed. Vibe accepting banned.</div>
+      <div class="box" style="margin:0"><div class="label">Output</div>A small site you can explain in 3 minutes.</div>
+    </div>
+    <div class="foot"><span>Part B · Student playbook + worksheets</span><span>Print · Write · Build · Ship</span></div>
+  </div>
+</section>
+
+<!-- TOC -->
+<section class="sec toc">
+  <div class="kicker">00 / Contents</div>
+  <h2>What's in this manual</h2>
+  <hr class="rule-y" />
+  <table>
+    <tr><td><a href="#use">00 · How to use this book</a></td><td>Start here</td></tr>
+    <tr><td><a href="#mind">01 · The only mindset you need</a></td><td>Director vs intern</td></tr>
+    <tr><td><a href="#basics">02 · Website basics</a></td><td>Just enough to not be lost</td></tr>
+    <tr><td><a href="#loop">03 · The whole process</a></td><td>The loop you memorize</td></tr>
+    <tr><td><a href="#gather">04 · Gather</a></td><td>Before any "build a site" prompt</td></tr>
+    <tr><td><a href="#decide">05 · Decide</a></td><td>Calls AI is not allowed to make</td></tr>
+    <tr><td><a href="#brief">06 · Write the brief</a></td><td>The real prompt</td></tr>
+    <tr><td><a href="#prompt">07 · Prompting that works</a></td><td>Jobs, not magic words</td></tr>
+    <tr><td><a href="#design">08 · Design principles</a></td><td>Always-on rules</td></tr>
+    <tr><td><a href="#dev">09 · Build tactics</a></td><td>How not to drown</td></tr>
+    <tr><td><a href="#ai">10 · AI through the whole process</a></td><td>Think → plan → build → review</td></tr>
+    <tr><td><a href="#review">11 · Director's review</a></td><td>After every slice</td></tr>
+    <tr><td><a href="#example">12 · Full example</a></td><td>Film club walkthrough</td></tr>
+    <tr><td><a href="#talk">13 · What to say to AI</a></td><td>Stuff → plan → build</td></tr>
+    <tr><td><a href="#code">14 · Code literacy</a></td><td>Stay in charge</td></tr>
+    <tr><td><a href="#ship">15 · Ship</a></td><td>If nobody can open it, it isn't real</td></tr>
+    <tr><td><a href="#v2">16 · Version 2 discipline</a></td><td>One improvement at a time</td></tr>
+    <tr><td><a href="#cheat">17 · Sticky-note cheatsheet</a></td><td>Tape this up</td></tr>
+    <tr><td><a href="#ws">Worksheets W1–W11</a></td><td>Write by hand</td></tr>
+    <tr><td><a href="#sessions">Session scripts 1–2</a></td><td>Run with your coach</td></tr>
+  </table>
+  <div class="callout">
+    <div class="label">How this book wins</div>
+    If the site looks decent but you cannot explain why the homepage is structured that way, the lesson failed. If the site is a little rough and you can defend every page, color, and feature — you won.
+  </div>
+</section>
+
+<section class="sec" id="use">
+  <div class="kicker">00 / Operating instructions</div>
+  <h2>How to use this book</h2>
+  <hr class="rule-y" />
+  <p>This is not a book to skim and forget. It is a shop manual. You read a section, you fill a worksheet, then you are allowed to touch AI.</p>
+  <div class="grid-2">
+    <div>
+      <h3>Do</h3>
+      <ul>
+        <li>Write the worksheets in your own words first.</li>
+        <li>Keep the brief next to you the whole project.</li>
+        <li>Build one small slice, then look in the browser.</li>
+        <li>Delete anything you did not ask for.</li>
+        <li>Change at least one thing by hand every session.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Don't</h3>
+      <ul>
+        <li>Start with "make me a sick website."</li>
+        <li>Accept the first design.</li>
+        <li>Add logins, databases, or extra pages "just in case."</li>
+        <li>Let AI invent facts about your life.</li>
+        <li>Call it done because the AI said it was done.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="danger">
+    <div class="label">Slop</div>
+    A site that looks like everyone else's AI site: generic layout, fake-fancy words, random features, no personality, and you could not explain how it works. We are not doing that.
+  </div>
+</section>
+
+<section class="sec" id="mind">
+  <div class="kicker">01 / Command structure</div>
+  <h2>The only mindset you need</h2>
+  <hr class="rule-y" />
+  <p>You do not need to already know how to code. You do need to be the boss of the project.</p>
+  <p>AI is not a genie. It is a very fast intern who has seen millions of websites, will copy the average of them unless you stop it, will invent stuff you did not ask for, and sounds confident even when it is wrong.</p>
+  <div class="grid-2">
+    <div class="box">
+      <div class="label">You = director</div>
+      <p>A director does not film every frame. A director decides what the thing is, who it's for, how it should feel, what "good" means, and when a scene needs another take.</p>
+    </div>
+    <div class="box">
+      <div class="label">AI = intern</div>
+      <p>The intern can draft, build, suggest, and speed you up. It cannot know your taste, your jokes, your school, or whether something is actually good. It also cannot take the blame if the site is cringe.</p>
+    </div>
+  </div>
+  <div class="callout">
+    <div class="label">Golden rule</div>
+    <p style="margin:0"><strong>Never ask AI to "make a website."</strong> Ask it to help with one clear job at a time, using a brief you wrote.</p>
+  </div>
+  <p>Your superpower is not typing code. Your superpower is <strong>being clear</strong>. If you are clear, AI gets useful. If you are vague, AI makes slop.</p>
+</section>
+
+<section class="sec" id="basics">
+  <div class="kicker">02 / Materials science</div>
+  <h2>Website basics</h2>
+  <hr class="rule-y" />
+  <p>You do not need to memorize this. You need to recognize it.</p>
+  <p>A website is a folder of files. The browser reads those files and draws the page.</p>
+  <table>
+    <tr><th>Layer</th><th>Job</th><th>Think of it as</th></tr>
+    <tr><td><strong>HTML</strong></td><td>Structure: headings, paragraphs, images, links, buttons</td><td>Bones / what is on the page</td></tr>
+    <tr><td><strong>CSS</strong></td><td>Look: colors, fonts, spacing, layout</td><td>Clothes / how it looks</td></tr>
+    <tr><td><strong>JavaScript</strong></td><td>Behavior: menus, checks, clicks</td><td>Muscles / what it does</td></tr>
+  </table>
+  <h3>Pages and links</h3>
+  <p>Most first sites are a handful of pages that link to each other: Home, About, the proof page (projects / schedule / gallery), Contact. Navigation is the menu between those pages. If the menu is confusing, the whole site is confusing.</p>
+  <h3>Phone vs computer</h3>
+  <p>If it only looks good on a big screen, it is not done. Most people will see it on a phone. Every time you build something, shrink the browser window.</p>
+  <div class="danger">
+    <div class="label">Version 1 does not need</div>
+    Accounts / login · databases · payment · giant animations · an AI chatbot on the site · ten pages. Those are later-game. Version 1 is clean, real, and understandable.
+  </div>
+</section>
+
+<section class="sec" id="loop">
+  <div class="kicker">03 / Operating loop</div>
+  <h2>The whole process</h2>
+  <hr class="rule-y" />
+  <p>Every project. Every time. If you skip the first half, you get slop. If you skip review, you get slop that works. If you skip shipping, it was only homework.</p>
+  <table>
+    <tr><th>#</th><th>Phase</th><th>You do</th></tr>
+    <tr><td>1</td><td>Gather</td><td>Collect content, examples, constraints</td></tr>
+    <tr><td>2</td><td>Decide</td><td>Make the calls AI is not allowed to make</td></tr>
+    <tr><td>3</td><td>Brief</td><td>Write it down so the intern cannot wander</td></tr>
+    <tr><td>4</td><td>Plan</td><td>Get a build plan, then approve or change it</td></tr>
+    <tr><td>5</td><td>Build in slices</td><td>One small piece at a time</td></tr>
+    <tr><td>6</td><td>Review</td><td>You judge it. AI does not grade its own homework</td></tr>
+    <tr><td>7</td><td>Polish</td><td>Taste pass, not extra features</td></tr>
+    <tr><td>8</td><td>Ship</td><td>Put it online and show a real human</td></tr>
+    <tr><td>9</td><td>Fix</td><td>Notes from reality, then a small update</td></tr>
+  </table>
+  <div class="callout"><strong>30-second version:</strong> Get your stuff together → write the brief → plan → build a little → look with your own eyes → fix → repeat → ship.</div>
+</section>
+
+<section class="sec" id="gather">
+  <div class="kicker">04 / Intake</div>
+  <h2>Gather — before any build prompt</h2>
+  <hr class="rule-y" />
+  <p>This is the part most people skip. It is also the part that makes you better than the intern. You are not collecting "inspiration" as a vibe. You are collecting evidence for decisions.</p>
+
+  <h3>4.1 The ugly honest paragraph</h3>
+  <p>In plain words, no fancy language: What is this website? Who is it for? What do you want them to do? What should it <em>not</em> be? When does version 1 count as done?</p>
+  <div class="sheet">
+    <div class="label">Example</div>
+    This is a site for my intramural soccer team so new players know when we practice, who we are, and how to join. It should feel energetic and simple, not corporate. Version 1 is done when Home, Schedule, and Join exist, it works on a phone, and a teammate can find the next practice in 10 seconds.
+  </div>
+  <p>If you cannot write that paragraph, you are not ready to prompt. Use worksheet <strong>W1</strong>.</p>
+
+  <h3>4.2 Steal like a director</h3>
+  <p>Find 3–5 websites you like. Not 20. Too many and you mash them into mush. For each one write the URL, what you like (specific), what you don't, and what you might copy — layout idea, not their logo or text.</p>
+  <div class="grid-2">
+    <div class="danger"><div class="label">Bad</div>"I like this, it's clean."</div>
+    <div class="callout"><div class="label">Good</div>"Big photo on the left, short sentence, one yellow button, almost no extra stuff."</div>
+  </div>
+  <p>Save screenshots in a folder called <span class="mono">references</span>.</p>
+
+  <h3>4.3 Real content first</h3>
+  <p>AI is bad at sounding like you unless you give it your actual words. Gather: your name / project name, a short bio in your real voice, photos you actually have, real links you want public, real facts. <strong>Do not let AI invent your life.</strong> If a sentence isn't true, it does not go on the site.</p>
+
+  <h3>4.4 The no-list</h3>
+  <p>Write 5–10 things you refuse. Constraints make you look original. Unlimited choice makes slop.</p>
+  <p class="small">Examples: no purple gradients · no "Welcome to my website" · no fake testimonials · no 12 menu items · no autoplay · no lorem ipsum · no extra pages just in case.</p>
+</section>
+
+<section class="sec" id="decide">
+  <div class="kicker">05 / Hard calls</div>
+  <h2>Decide — before building</h2>
+  <hr class="rule-y" />
+  <p>AI can suggest options. You pick. Make these decisions out loud or in writing.</p>
+  <h3>Audience</h3>
+  <p>Not "everyone." Try: ninth graders who might join the club · my grandma and the teacher · people who liked my short film · me in 3 months when I forgot how this project worked.</p>
+  <h3>One job of the site</h3>
+  <p>Every page can have extra stuff. The site should have one main job, in 8 words or fewer. Examples: get people to contact you · show 3 projects clearly · explain the event and how to show up.</p>
+  <h3>Pages</h3>
+  <p>Start with 3–5 max. For each page: name, why it exists, what the person should do. If a page has no job, cut it.</p>
+  <h3>Feeling</h3>
+  <p>Pick 3 feeling words, not 15. Then pick 3 you do <strong>not</strong> want. Example: calm / sharp / friendly — not corporate / cute / chaotic.</p>
+  <h3>Visual direction</h3>
+  <p>Even if you "aren't a designer," make a few calls: light or dark · one main color + one accent · font vibe (clean, sporty, editorial, playful) · photos or no photos · dense or spacious. If you cannot decide, copy <strong>one</strong> reference direction, not all three.</p>
+</section>
+
+<section class="sec" id="brief">
+  <div class="kicker">06 / Spec</div>
+  <h2>Write the brief — this is the real prompt</h2>
+  <hr class="rule-y" />
+  <p>A brief is the document you hand the intern before they are allowed to work. You will reuse it in almost every later prompt. That is how the project does not drift.</p>
+  <p>AI models guess the missing pieces. If you do not supply taste, audience, and limits, it fills the blanks with average internet. Average internet is slop.</p>
+  <p>A brief makes you think, gives the intern a memory, and gives you a way to say the most powerful sentence in this book: <strong>"That's off-brief."</strong></p>
+  <p>Fill worksheet <strong>W6</strong>. Short sentences. No fluff. Do not invent facts to make it look complete.</p>
+  <div class="callout">Paste the finished brief at the top of almost every build prompt. When the AI forgets (it will), paste it again.</div>
+</section>
+
+<section class="sec" id="prompt">
+  <div class="kicker">07 / Radio protocol</div>
+  <h2>Prompting that actually works</h2>
+  <hr class="rule-y" />
+  <p>Forget trick phrases like "you are a world-class designer with 200 IQ." They are mostly theater.</p>
+  <p>What works: <strong>clear job + context + constraints + examples + how to answer.</strong></p>
+
+  <h3>The 6-part prompt</h3>
+  <table>
+    <tr><th>Part</th><th>What it is</th></tr>
+    <tr><td>1 Role</td><td>Only if it changes behavior ("act as a strict code reviewer")</td></tr>
+    <tr><td>2 Job</td><td>One thing to do</td></tr>
+    <tr><td>3 Context</td><td>Paste the brief, or the relevant piece</td></tr>
+    <tr><td>4 Examples</td><td>Screenshots, reference sites, a sentence in your voice</td></tr>
+    <tr><td>5 Constraints</td><td>What not to do</td></tr>
+    <tr><td>6 Output shape</td><td>Plan, options, code, or questions — pick one</td></tr>
+  </table>
+
+  <div class="grid-2">
+    <div class="danger"><div class="label">Bad</div>Make me a cool portfolio website.</div>
+    <div class="callout"><div class="label">Better</div>Read my brief. Do not write code yet. Give me 3 homepage layout options. For each: sections top to bottom, why it fits, one risk. Recommend one. Wait for my pick.</div>
+  </div>
+  <p>Notice: <strong>no code yet.</strong> That is not slow. That is how you stay in charge.</p>
+
+  <h3>Steal these prompts</h3>
+  <p class="label">A · Turn notes into a brief</p>
+  <pre class="prompt">Here are my messy notes. Turn them into a one-page website brief using my template. Do not invent facts. If something is missing, ask questions in a numbered list instead of filling it in.</pre>
+  <p class="label">B · Ask questions before building</p>
+  <pre class="prompt">Before we plan, ask me the 8 most important questions you still need. Only questions that would change the site. No generic questions.</pre>
+  <p class="label">C · Plan, don't build</p>
+  <pre class="prompt">Using this brief, write a build plan for version 1. Break it into slices I can finish one at a time. For each slice: goal, files involved, how I'll know it worked. Do not add features that are not in the brief. Do not write code.</pre>
+  <p class="label">D · Build one slice</p>
+  <pre class="prompt">Implement only slice 2 from the plan: the homepage header + headline + one button. Follow the brief. Do not restyle the whole site. Do not add extra sections. Afterward, tell me what you changed in bullet points a beginner can understand.</pre>
+  <p class="label">E · Critique like a mean-but-fair friend</p>
+  <pre class="prompt">Review this homepage against the brief. Do not flatter me. Tell me: 1) what is unclear in 5 seconds, 2) what looks generic/AI, 3) what to delete, 4) the single most important fix. Give me a punch list, not a rebuild.</pre>
+  <p class="label">F · Explain the code</p>
+  <pre class="prompt">Explain the files you just created like I'm smart but new. For each file: what it is, what would break if I deleted it, and which 3 lines matter most.</pre>
+  <p class="label">G · Taste pass</p>
+  <pre class="prompt">This looks too much like default AI design. Propose 5 concrete changes to make it feel more like [feeling words] and more like my references. No new features. No new pages. Changes only to type, spacing, color, copy, and layout.</pre>
+
+  <h3>Words that ruin prompts</h3>
+  <p>Avoid unless you immediately define them: cool · modern · sleek · unique · professional · make it pop · high-end. Say the visible thing instead: "big headline, almost no extra text" · "same button style everywhere" · "lots of empty space" · "looks like a school newspaper, not a startup landing page."</p>
+
+  <h3>One job per prompt</h3>
+  <p>If your prompt contains "redesign everything, add a blog, make it mobile, and also write my bio," the intern will thrash. Split it. Always make it choose, then you choose: <em>Give me 3 options. Pros and cons. Recommendation. Wait.</em></p>
+
+  <h3>Repair prompts</h3>
+  <pre class="prompt">You guessed instead of asking. List every assumption you made. Star the ones I need to confirm. Do not keep building until I answer.
+
+Remove everything I did not ask for. List what you removed. Then show only the slice I asked for.
+
+Stop. Restate the goal of this slice in one sentence. If you cannot, ask me one question. Do not write more code.
+
+Explain this like I'm 15 and new to code. No jargon without a translation. Then tell me what I should look at in the browser to verify it.</pre>
+</section>
+
+<section class="sec" id="design">
+  <div class="kicker">08 / Visual law</div>
+  <h2>Design principles you always follow</h2>
+  <hr class="rule-y" />
+  <p>You do not need art school. You need a few rules you refuse to break.</p>
+  <table>
+    <tr><th>Rule</th><th>Meaning</th></tr>
+    <tr><td>Hierarchy</td><td>The most important thing looks most important. Squint. Can you still tell what matters? If everything is big, nothing is big. If you have six buttons, you have no buttons.</td></tr>
+    <tr><td>One idea per section</td><td>Headline. Short explanation. Maybe an image. Maybe one action. Stop.</td></tr>
+    <tr><td>Real words</td><td>If you would not say it out loud to a friend, do not put it on the site. Write the headline yourself at least once.</td></tr>
+    <tr><td>Spacing is design</td><td>Beginners and AI cram. Related things sit closer. Unrelated things sit farther. If it feels tight, add space before adding decoration.</td></tr>
+    <tr><td>Consistency = trust</td><td>Same fonts, buttons, corners, spacing, nav on every page.</td></tr>
+    <tr><td>Contrast</td><td>Text has to be readable. No gray-on-gray. Buttons should look like buttons. Links should be obvious.</td></tr>
+    <tr><td>Mobile is not optional</td><td>Shrink the window. Can you tap the menu? Is the main button still obvious?</td></tr>
+    <tr><td>Content first</td><td>A beautiful empty site is still empty. Real headlines and photos before glow effects.</td></tr>
+    <tr><td>Original = specific</td><td>Your actual photo, joke, schedule, jersey color. Weird for the sake of weird is just another costume.</td></tr>
+  </table>
+  <div class="sheet">
+    <div class="label">Human copy vs slop copy</div>
+    <p><strong>Slop:</strong> "Empowering tomorrow's leaders through innovative solutions." · "Welcome to my official website. I am passionate about…"</p>
+    <p style="margin:0"><strong>Human:</strong> "I make short films about people who get in over their head." · "Practice is Tuesdays at 4:30 behind the gym." · "If you want in, text this number."</p>
+  </div>
+  <div class="danger">
+    <div class="label">Anti-slop visual checklist — 3 or more means rewrite the look</div>
+    Purple/blue gradient · generic sans + fake premium spacing · floating glass cards / 3D blobs · fake people · 4 feature cards with meaningless icons · huge nav · stock phrases · animations that delay the thing you came to do · dark mode + neon + particles because "tech." When in doubt, delete.
+  </div>
+</section>
+
+<section class="sec" id="dev">
+  <div class="kicker">09 / Shop tactics</div>
+  <h2>How to build without drowning</h2>
+  <hr class="rule-y" />
+  <h3>Version 1 is a skateboard, not a car</h3>
+  <p>Pages exist. Nav works. Real text. Real images. Phone-okay. You do not want a half-built Tesla.</p>
+  <h3>Build in slices</h3>
+  <p>A slice is small enough to judge in 10 minutes. Good: header + nav · homepage hero · about paragraph + photo · contact · footer · mobile menu. Bad: "the whole website" · "make it complete." After each slice, look in the browser. Do not stack five AI changes before looking.</p>
+  <h3>Plan first, then freeze it</h3>
+  <pre class="prompt">Follow this plan. If you want to change it, ask. Do not silently expand scope.</pre>
+  <h3>Name things like a human</h3>
+  <p>Good: <span class="mono">index.html</span>, <span class="mono">about.html</span>, <span class="mono">styles.css</span>, <span class="mono">/images/team-photo.jpg</span>. Bad: <span class="mono">final2-NEW-real.html</span>, <span class="mono">thingy</span>. If you cannot find it, you do not control it.</p>
+  <h3>Read the change</h3>
+  <p>You are not reading to become a compiler. You are catching nonsense: files you didn't ask for, words that aren't yours, extra pages, extra libraries, secrets/passwords (never put those on the site). Then force a plain-English summary. If the intern cannot explain it simply, it is not simple enough.</p>
+  <h3>Keep a decisions list</h3>
+  <p>Every time you pick something, write it down. Models forget. Your notes don't.</p>
+  <h3>When stuck, shrink the problem</h3>
+  <p>Undo to the last version that worked. Describe the one broken thing. Ask for the smallest fix.</p>
+  <pre class="prompt">Something broke. Do not rewrite the site. Restate the symptom. List 3 possible causes. Tell me the smallest experiment to find out which one it is.</pre>
+  <h3>Test like a user</h3>
+  <p>Click every nav link and button. Read the copy out loud. Watch a friend use it without helping. Where they hesitate is your next fix.</p>
+  <div class="danger">If the site feels generic, you do not need a new framework. You need a better headline, fewer sections, a real photo, stronger spacing, and one color commitment. New tools are how people hide from finishing.</div>
+</section>
+
+<section class="sec" id="ai">
+  <div class="kicker">10 / Crew roles</div>
+  <h2>How to use AI through the whole process</h2>
+  <hr class="rule-y" />
+  <p>The tool can be ChatGPT, Claude, Gemini, Cursor, Devin, or whatever you have. The process does not change. What changes is how much the intern can do while you are not looking. Powerful intern = tighter brief, not looser.</p>
+  <table>
+    <tr><th>Step</th><th>AI's job</th><th>Your job</th></tr>
+    <tr><td>1 Thinking partner</td><td>Turn notes into questions, draft the brief, suggest page options, critique references, rewrite copy in your voice</td><td>You edit. No whole codebase yet</td></tr>
+    <tr><td>2 Planning partner</td><td>Propose slice plan, list files, flag what's too big for v1</td><td>Approve the plan in writing</td></tr>
+    <tr><td>3 Build partner</td><td>Implement the exact slice</td><td>Hand it brief + plan + no-list. Review like a boss</td></tr>
+    <tr><td>4 Review partner</td><td>Critique against the brief</td><td>You still decide</td></tr>
+    <tr><td>5 Explain partner</td><td>Quiz you on what you just built</td><td>If you miss one, learn it before the next slice</td></tr>
+  </table>
+  <pre class="prompt">Quiz me. Ask 5 questions to check whether I understand what we just built. If I miss one, explain it and ask again.</pre>
+</section>
+
+<section class="sec" id="review">
+  <div class="kicker">11 / Inspection</div>
+  <h2>Director's review</h2>
+  <hr class="rule-y" />
+  <p>Use after every build slice. If you cannot fill this out, you are generating faster than you are thinking. Slow down. Worksheet <strong>W8</strong> is the blank version.</p>
+  <div class="grid-2">
+    <div class="box">
+      <div class="label">Purpose</div>
+      What is this page for? Can I tell in 5 seconds?
+    </div>
+    <div class="box">
+      <div class="label">Words</div>
+      Does this sound like me? Any fake or generic lines to kill?
+    </div>
+    <div class="box">
+      <div class="label">Look</div>
+      Match the brief, or default AI look? Is the main thing the main thing? Enough space? Consistent?
+    </div>
+    <div class="box">
+      <div class="label">Build</div>
+      Did the intern add extras? Can I explain the new files? Phone? Did I click the links?
+    </div>
+  </div>
+  <p><strong>Next:</strong> one thing to fix · one thing not to touch · next slice from the plan.</p>
+</section>
+
+<section class="sec" id="example">
+  <div class="kicker">12 / Worked example</div>
+  <h2>Film club site — the process in miniature</h2>
+  <hr class="rule-y" />
+  <p><strong>Gather:</strong> Audience = students who might join, plus the teacher. Job = get people to the next screening. Pages = Home, Films, Join. Feeling = bold, simple, a little cinematic. No-list = no fake awards, no login, no purple glow. Real content = meeting time, room number, 3 actual short films.</p>
+  <p><strong>Brief excerpt:</strong> Version 1 done when a new kid can find the next meeting and see 3 films. Voice = direct, not student-council-formal. Dark background, one accent from the club poster. Giant movie-title typography on Home.</p>
+  <p><strong>Approved plan:</strong> 1 Home hero + next meeting · 2 Nav + 3 pages hooked up · 3 Films list · 4 Join page · 5 Mobile pass · 6 Taste pass.</p>
+  <pre class="prompt">Implement only step 1. Dark page, giant title "Friday Night Shorts," one sentence in my voice, next meeting in plain text, one button that goes nowhere yet. No extra sections. Then explain what you made.</pre>
+  <div class="callout">You notice the AI wrote "Welcome to the official Film Club experience." You delete it and write: "We show shorts. You should come." That single replacement is you doing the job.</div>
+</section>
+
+<section class="sec" id="talk">
+  <div class="kicker">13 / Talk track</div>
+  <h2>Stuff → plan → build</h2>
+  <hr class="rule-y" />
+  <p>Use this script until it becomes habit.</p>
+  <p class="label">When you have a pile of notes</p>
+  <pre class="prompt">Organize this into: facts, decisions I already made, open questions, and junk we should ignore. Don't write code.</pre>
+  <p class="label">When you think you're ready</p>
+  <pre class="prompt">What's missing from this brief that would cause a generic website? Ask me only those questions.</pre>
+  <p class="label">When the brief is solid</p>
+  <pre class="prompt">Make a version 1 plan in slices. Flag anything that looks too big. Wait.</pre>
+  <p class="label">When the plan is approved</p>
+  <pre class="prompt">Do slice 1 only. Restate slice 1 first. If your restatement is wrong, stop.</pre>
+  <p class="label">After slice 1 exists</p>
+  <pre class="prompt">Summarize what changed. Then I'll open the browser and check. Don't start slice 2.</pre>
+  <p class="label">After you look — this one is elite</p>
+  <pre class="prompt">I checked. Keep X. Change Y. Delete Z. Do not do anything else.</pre>
+</section>
+
+<section class="sec" id="code">
+  <div class="kicker">14 / Literacy</div>
+  <h2>Enough code to stay in charge</h2>
+  <hr class="rule-y" />
+  <p>You do not need to be a programmer. You need literacy. Once a session, change something by hand: a headline, a color, an image, a button label. If you never touch it yourself, you will not believe it's yours.</p>
+  <table>
+    <tr><th>You see</th><th>It usually means</th></tr>
+    <tr><td class="mono">&lt;h1&gt;</td><td>biggest title on the page</td></tr>
+    <tr><td class="mono">&lt;p&gt;</td><td>a paragraph</td></tr>
+    <tr><td class="mono">&lt;a&gt;</td><td>a link</td></tr>
+    <tr><td class="mono">&lt;img&gt;</td><td>an image</td></tr>
+    <tr><td class="mono">&lt;button&gt;</td><td>a button</td></tr>
+    <tr><td class="mono">class=</td><td>a name CSS uses to style that thing</td></tr>
+    <tr><td class="mono">color / font-size / margin / padding</td><td>look and spacing</td></tr>
+    <tr><td class="mono">.html / .css / .js</td><td>a page / the look / behavior</td></tr>
+  </table>
+  <pre class="prompt">Annotate this page: which parts are content, which are layout, which are decoration. Then show me where each lives in the files.</pre>
+</section>
+
+<section class="sec" id="ship">
+  <div class="kicker">15 / Release</div>
+  <h2>Shipping</h2>
+  <hr class="rule-y" />
+  <p>A site on your laptop is a draft. A site someone else can open is real. You do not need the perfect host. You need a host.</p>
+  <ol>
+    <li>The site works locally</li>
+    <li>Files go on a simple host (GitHub Pages, Netlify, school server — whatever your coach chooses)</li>
+    <li>Send the link to one real person</li>
+    <li>Watch them use it</li>
+    <li>Make a small fix</li>
+  </ol>
+  <h3>The 3-minute presentation</h3>
+  <ol>
+    <li>Who it's for</li>
+    <li>The one job</li>
+    <li>Click through each page</li>
+    <li>One decision you made that AI got wrong at first</li>
+    <li>What version 2 might be — and what you are not adding yet</li>
+  </ol>
+  <p>If you can do that, you learned the process.</p>
+</section>
+
+<section class="sec" id="v2">
+  <div class="kicker">16 / Next rev</div>
+  <h2>Version 2 discipline</h2>
+  <hr class="rule-y" />
+  <p>After v1 ships, new ideas will show up. Good. Put them on a list. Do not immediately build them.</p>
+  <p>For each idea ask: Does this help the one job? Can a stranger tell we added it? Is it a real need or just intern excitement?</p>
+  <p>Then pick <strong>one</strong> improvement. Ship that. Repeat. This is how real builders work. Not one giant forever-project.</p>
+</section>
+
+<section class="sec" id="cheat">
+  <div class="kicker">17 / Wall card</div>
+  <h2>Cheatsheet — tape this up</h2>
+  <hr class="rule-y" />
+  <div class="sheet" style="font-family:'Barlow Condensed',sans-serif; font-size:22px; line-height:1.35; letter-spacing:.04em; text-transform:uppercase;">
+    Director, not intern.<br />
+    Brief before build.<br />
+    Plan before code.<br />
+    One slice at a time.<br />
+    Look in the browser after every slice.<br />
+    Keep / change / delete / nothing else.<br />
+    If it's generic, delete and get specific.<br />
+    If you can't explain it, you don't own it yet.<br />
+    Phone check.<br />
+    Ship something small.
+  </div>
+  <p class="muted">A site is done when: you can explain it · a stranger knows what to do on the first screen · it works on a phone · the words sound like you · nothing extra is in it · you would show it without apologizing.</p>
+</section>
+
+<!-- WORKSHEETS -->
+<section class="sec" id="ws">
+  <div class="kicker">Workpack / write by hand</div>
+  <h2>Worksheets</h2>
+  <hr class="rule-y" />
+  <p>Fill these before you let AI build. Pencil beats typing for the first pass — slower brain, better decisions. If a line is blank, that is a missing decision, not decoration.</p>
+  <p class="small">Name _______________________________ &nbsp;&nbsp; Project _______________________________ &nbsp;&nbsp; Date ______________</p>
+
+  <div class="ws sheet">
+    <div class="stamp">W1</div>
+    <h3 style="margin-top:10px">Ugly honest paragraph</h3>
+    <p class="small">Plain words. No branding. If you cannot finish this, you are not ready to prompt.</p>
+    <div class="label">This website is</div><div class="lines tall"></div>
+    <div class="label">It is for</div><div class="line"></div>
+    <div class="label">I want them to</div><div class="line"></div>
+    <div class="label">It should not be</div><div class="line"></div>
+    <div class="label">Version 1 is done when</div><div class="lines tall"></div>
+  </div>
+
+  <div class="ws sheet">
+    <div class="stamp">W2</div>
+    <h3 style="margin-top:10px">References — steal like a director</h3>
+    <p class="small">3 sites max for v1. Be specific. "Clean" is not a note.</p>
+    <table>
+      <tr><th style="width:18%">Site / URL</th><th>I like (visible details)</th><th>I don't like</th><th>I might copy</th></tr>
+      <tr><td>1<br><br><br></td><td></td><td></td><td></td></tr>
+      <tr><td>2<br><br><br></td><td></td><td></td><td></td></tr>
+      <tr><td>3<br><br><br></td><td></td><td></td><td></td></tr>
+    </table>
+    <div class="label">The one direction I am actually following (not a mashup)</div>
+    <div class="line"></div>
+  </div>
+
+  <div class="ws sheet">
+    <div class="stamp">W3</div>
+    <h3 style="margin-top:10px">Real content dump</h3>
+    <p class="small">True things only. If you don't have it, leave it blank — do not let AI fill it.</p>
+    <div class="label">Official name of this thing</div><div class="line"></div>
+    <div class="label">Bio / intro in my real voice (write like a text to a friend)</div><div class="lines tall"></div>
+    <div class="label">Facts that must appear (times, places, names)</div><div class="lines tall"></div>
+    <div class="label">Links I actually want public</div><div class="line"></div>
+    <div class="label">Photos / files I already have</div><div class="line"></div>
+    <div class="label">Words I would never say</div><div class="line"></div>
+  </div>
+
+  <div class="ws sheet">
+    <div class="stamp">W4</div>
+    <h3 style="margin-top:10px">No-list</h3>
+    <p class="small">Things we refuse. This is a feature, not a mood.</p>
+    <div class="fill-3">
+      <div class="line">1.</div><div class="line">2.</div><div class="line">3.</div>
+      <div class="line">4.</div><div class="line">5.</div><div class="line">6.</div>
+      <div class="line">7.</div><div class="line">8.</div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="kicker">Workpack continued</div>
+  <h2>Decisions + brief</h2>
+  <hr class="rule-y" />
+
+  <div class="ws sheet">
+    <div class="stamp">W5</div>
+    <h3 style="margin-top:10px">Decisions AI may not make</h3>
+    <div class="label">Audience (not "everyone")</div><div class="line"></div>
+    <div class="label">One job of the site (8 words or fewer)</div><div class="line"></div>
+    <div class="label">Feeling words (3)</div><div class="line"></div>
+    <div class="label">Anti-feeling words (3)</div><div class="line"></div>
+    <div class="grid-2">
+      <div><div class="label">Light or dark</div><div class="line"></div></div>
+      <div><div class="label">Main color / accent</div><div class="line"></div></div>
+      <div><div class="label">Font vibe</div><div class="line"></div></div>
+      <div><div class="label">Dense or spacious</div><div class="line"></div></div>
+    </div>
+    <div class="label">Pages in v1 — name / job / main action</div>
+    <table>
+      <tr><th>Page</th><th>Why it exists</th><th>What they do</th></tr>
+      <tr><td>Home<br><br></td><td></td><td></td></tr>
+      <tr><td><br><br></td><td></td><td></td></tr>
+      <tr><td><br><br></td><td></td><td></td></tr>
+      <tr><td><br><br></td><td></td><td></td></tr>
+    </table>
+  </div>
+
+  <div class="ws sheet">
+    <div class="stamp">W6</div>
+    <h3 style="margin-top:10px">One-page brief — paste this into AI</h3>
+    <p class="small">Copy this structure. Keep it ugly and true. This document beats any magic prompt.</p>
+<pre>PROJECT
+- Name:
+- One-sentence description:
+- Audience:
+- Main job of the site:
+- Version 1 done when:
+
+PAGES
+- Page name — job — main action
+
+CONTENT RULES
+- Voice:
+- Do not say:
+- Must include these true facts:
+- Never invent:
+
+LOOK
+- Feeling words / anti-feeling words:
+- Light/dark:
+- Main color / accent:
+- Font vibe:
+- Reference sites and what to steal from each:
+- Do not copy:
+
+NO-LIST
+-
+
+TECH CONSTRAINTS
+- First version = simple pages, not a big app
+- Must work on phone
+- Do not add login, database, or extra libraries unless I ask
+- Explain any new file in plain English
+
+HOW TO WORK WITH ME
+- Plan first, then wait
+- Build one slice at a time
+- Show me what you changed and why
+- If something is unclear, ask me instead of guessing</pre>
+    <div class="label">Brief status</div>
+    <div class="check"><span class="boxx"></span><span>Handwritten draft done</span></div>
+    <div class="check"><span class="boxx"></span><span>Typed version ready to paste</span></div>
+    <div class="check"><span class="boxx"></span><span>Coach read it and did not add extra features</span></div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="kicker">Workpack continued</div>
+  <h2>Plan, inspect, ship</h2>
+  <hr class="rule-y" />
+
+  <div class="ws sheet">
+    <div class="stamp">W7</div>
+    <h3 style="margin-top:10px">Slice plan — freeze this before code</h3>
+    <p class="small">AI may propose this. You approve it. If a slice takes more than one work block, split it.</p>
+    <table>
+      <tr><th>#</th><th>Slice goal</th><th>How I'll know it worked</th><th>Approved?</th></tr>
+      <tr><td>1</td><td><br><br></td><td></td><td></td></tr>
+      <tr><td>2</td><td><br><br></td><td></td><td></td></tr>
+      <tr><td>3</td><td><br><br></td><td></td><td></td></tr>
+      <tr><td>4</td><td><br><br></td><td></td><td></td></tr>
+      <tr><td>5</td><td><br><br></td><td></td><td></td></tr>
+      <tr><td>6</td><td>Taste pass — no new features</td><td>Looks like the brief, not default AI</td><td></td></tr>
+    </table>
+    <div class="label">We are explicitly not doing in v1</div>
+    <div class="line"></div>
+  </div>
+
+  <div class="ws sheet">
+    <div class="stamp">W8</div>
+    <h3 style="margin-top:10px">Director's review (print extra copies)</h3>
+    <p class="small">Slice # ______ &nbsp;&nbsp; Page / part ______________________ &nbsp;&nbsp; Date __________</p>
+    <div class="label">Purpose — can I tell in 5 seconds?</div><div class="line"></div>
+    <div class="label">Words that sound fake — kill list</div><div class="line"></div>
+    <div class="label">Looks like the brief or like default AI?</div><div class="line"></div>
+    <div class="label">Extras the intern added</div><div class="line"></div>
+    <div class="label">Can I explain the new files? If no, what's confusing?</div><div class="line"></div>
+    <div class="check"><span class="boxx"></span><span>Clicked every new link</span></div>
+    <div class="check"><span class="boxx"></span><span>Phone-width check</span></div>
+    <div class="grid-2">
+      <div><div class="label">One thing to fix</div><div class="line"></div></div>
+      <div><div class="label">One thing not to touch</div><div class="line"></div></div>
+    </div>
+    <div class="label">Next slice from the plan</div>
+    <div class="line"></div>
+  </div>
+
+  <div class="ws sheet">
+    <div class="stamp">W9</div>
+    <h3 style="margin-top:10px">Keep / change / delete</h3>
+    <p class="small">Paste this shape back to AI. Elite prompt. Nothing else.</p>
+    <div class="label">KEEP</div><div class="lines tall"></div>
+    <div class="label">CHANGE</div><div class="lines tall"></div>
+    <div class="label">DELETE</div><div class="lines tall"></div>
+    <div class="check"><span class="boxx"></span><span>I wrote "Do not do anything else."</span></div>
+  </div>
+
+  <div class="ws sheet">
+    <div class="stamp">W10</div>
+    <h3 style="margin-top:10px">Ship checklist</h3>
+    <div class="check"><span class="boxx"></span><span>Browser tab title is not "Document" or "Untitled"</span></div>
+    <div class="check"><span class="boxx"></span><span>Images are mine or I have the right to use them</span></div>
+    <div class="check"><span class="boxx"></span><span>Email / socials are ones I actually want public</span></div>
+    <div class="check"><span class="boxx"></span><span>No lorem ipsum, no "sample," no fake quotes</span></div>
+    <div class="check"><span class="boxx"></span><span>Phone check passed</span></div>
+    <div class="check"><span class="boxx"></span><span>I can present it in 3 minutes without opening the chat history</span></div>
+    <div class="check"><span class="boxx"></span><span>One real human opened the live link</span></div>
+    <div class="label">Live URL</div>
+    <div class="line"></div>
+  </div>
+
+  <div class="ws sheet">
+    <div class="stamp">W11</div>
+    <h3 style="margin-top:10px">3-minute presentation card</h3>
+    <div class="label">Who it's for</div><div class="line"></div>
+    <div class="label">The one job</div><div class="line"></div>
+    <div class="label">Page tour notes</div><div class="lines tall"></div>
+    <div class="label">One decision I made that AI got wrong at first</div><div class="lines tall"></div>
+    <div class="label">Possible v2 / what I am not adding yet</div>
+    <div class="line"></div>
+  </div>
+</section>
+
+<section class="sec" id="sessions">
+  <div class="kicker">Run of show</div>
+  <h2>Session scripts</h2>
+  <hr class="rule-y" />
+  <p>Coach sits beside, not across. Student types. After every AI reply, pause. Do not end a session on "the AI will figure it out later."</p>
+
+  <div class="sheet ws">
+    <div class="pill">SESSION 1 · GATHER + BRIEF</div>
+    <p class="small" style="margin-top:10px">Goal: he leaves with a real brief, not a website. Timebox 40–50 min + 5 min review.</p>
+    <p><strong>0–5 · Frame.</strong> Read the golden rule out loud. "AI can type. You have to decide." Open a notes doc. No coding tool yet.</p>
+    <p><strong>5–15 · W1.</strong> He writes the ugly paragraph. Coach asks the 4 questions: What's this page for? Who is it for? What should they do next? Would you show a friend?</p>
+    <p><strong>15–25 · W2 + W3.</strong> Find 3 reference sites. He must say one specific visual thing per site. Dump real content. Ban invented bios.</p>
+    <p><strong>25–35 · W4 + W5.</strong> No-list and decisions. Cut pages until 3–5 remain.</p>
+    <p><strong>35–45 · W6 with AI as clerk only.</strong></p>
+    <pre class="prompt">Here are my messy notes. Turn them into a one-page website brief using my template. Do not invent facts. If something is missing, ask questions in a numbered list instead of filling it in.</pre>
+    <p>He answers questions. He edits the brief until it sounds like him.</p>
+    <p><strong>Last 5 · Stop while winning.</strong> Save the brief. No code. Homework: take or find 1 real photo.</p>
+    <div class="danger">Fail condition: you opened a builder and generated a homepage.</div>
+  </div>
+
+  <div class="sheet ws">
+    <div class="pill">SESSION 2 · PLAN + SLICE 1</div>
+    <p class="small" style="margin-top:10px">Goal: approved slice plan + one real homepage piece he can explain. 40–50 min.</p>
+    <p><strong>0–5 · Reload the brief.</strong> He reads W6 out loud. Change anything that feels fake.</p>
+    <p><strong>5–15 · Plan only.</strong></p>
+    <pre class="prompt">Using this brief, write a build plan for version 1. Break it into slices I can finish one at a time. For each slice: goal, files involved, how I'll know it worked. Do not add features that are not in the brief. Do not write code.</pre>
+    <p>Fill W7. Delete any slice that is not v1. Freeze the plan.</p>
+    <p><strong>15–35 · Slice 1 only.</strong> Usually header + headline + one button. Paste brief + plan + this:</p>
+    <pre class="prompt">Do slice 1 only. Restate slice 1 first. If your restatement is wrong, stop.
+Follow the brief. Do not restyle the whole site. Do not add extra sections.
+Afterward, tell me what you changed in bullet points a beginner can understand.</pre>
+    <p>Open the browser. Shrink the window. He does W8 out loud.</p>
+    <p><strong>35–45 · Make it his.</strong> Kill one generic line by hand. Rewrite the headline without AI. Optional:</p>
+    <pre class="prompt">I checked. Keep X. Change Y. Delete Z. Do not do anything else.</pre>
+    <p><strong>Last 5 · Explain.</strong> He points at the page and names: title, sentence, button, nav. If he says "the AI did it," rewind. Homework: click every link on a phone or with the window skinny.</p>
+    <div class="danger">Fail condition: five sections, a framework he cannot name, or "we'll clean it up later."</div>
+  </div>
+
+  <div class="callout">
+    <div class="label">Sessions 3–6 (short map)</div>
+    3 · Finish Home as his, not the intern's. 4 · Add 1–2 pages + working nav + mobile. 5 · Taste pass: delete slop, tighten spacing, rewrite copy. 6 · Test, ship, 3-minute presentation (W10 + W11).
+  </div>
+</section>
+
+<section class="sec">
+  <div class="kicker">End matter</div>
+  <h2>You are cleared to build</h2>
+  <hr class="rule-y" />
+  <p class="lede">If you only do eight things, do these: write the ugly paragraph · grab 3 references and say what you like specifically · fill the one-page brief · let AI ask questions and propose a plan · approve slices · build slice 1 only · do a director's review out loud · stop while it's still going well.</p>
+  <p>That is a playbook in motion, not a PDF nobody follows.</p>
+  <div class="bars"><span class="y"></span><span class="r"></span><span class="d"></span></div>
+  <p class="mono" style="color:var(--yellow); letter-spacing:.14em; text-transform:uppercase;">AI can type. You have to decide.</p>
+  <div class="foot">
+    <span>ASWP-01 · Student edition · Neo industrial field manual</span>
+    <span>End of document</span>
+  </div>
+</section>
+
+</div>
+</body>
+</html>
