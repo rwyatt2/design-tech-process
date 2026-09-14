@@ -9,184 +9,193 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
 <style>
   :root {
-    --bg: #0a0a0a;
-    --bg-2: #141414;
-    --bg-3: #1a1a1a;
-    --ink: #f5f5f0;
-    --muted: #a0a090;
-    --dim: #6a6a60;
-    --line: #2a2a2a;
-    --yellow: #ffeb3b;
-    --yellow-dim: #c4a000;
-    --rust: #e64a19;
-    --ok: #aeea00;
+    --bg: #050505;
+    --bg-2: #0f0f0f;
+    --bg-3: #141414;
+    --ink: #ffffff;
+    --muted: #888888;
+    --dim: #555555;
+    --line: #333333;
+    --yellow: #ffff00;
+    --yellow-dim: #cccc00;
+    --rust: #ff4444;
+    --ok: #00ff00;
   }
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); }
   body {
     font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-    font-size: 15px;
-    line-height: 1.6;
+    font-size: 18px;
+    line-height: 1.7;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
   .print-hint {
     position: sticky; top: 0; z-index: 20;
-    background: var(--yellow); color: #111;
+    background: var(--yellow); color: #000;
     font-family: "JetBrains Mono", monospace;
-    font-size: 12px; font-weight: 600;
-    letter-spacing: .02em;
-    padding: 12px 24px;
+    font-size: 14px; font-weight: 700;
+    letter-spacing: 0;
+    padding: 16px 32px;
     text-align: center;
+    text-transform: uppercase;
   }
-  .wrap { max-width: 960px; margin: 0 auto; padding: 48px 48px 120px; }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 64px 64px 160px; }
   .meta {
-    display: flex; justify-content: space-between; gap: 24px;
+    display: flex; justify-content: space-between; gap: 32px;
     font-family: "JetBrains Mono", monospace;
-    font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
-    color: var(--muted); border-bottom: 1px solid var(--line); padding-bottom: 16px;
-    margin-bottom: 32px;
+    font-size: 13px; letter-spacing: .05em; text-transform: uppercase;
+    color: var(--muted); border-bottom: 2px solid var(--line); padding-bottom: 20px;
+    margin-bottom: 48px;
   }
   .stamp {
     display: inline-block;
-    border: 1px solid var(--yellow);
+    border: 2px solid var(--yellow);
     color: var(--yellow);
     font-family: "JetBrains Mono", monospace;
-    font-size: 10px; letter-spacing: .1em;
-    padding: 6px 12px; text-transform: uppercase;
+    font-size: 12px; letter-spacing: .08em;
+    padding: 8px 16px; text-transform: uppercase;
+    font-weight: 600;
   }
   h1, h2, h3, .display {
     font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-    font-weight: 800; letter-spacing: -.02em; line-height: 1.1;
+    font-weight: 900; letter-spacing: -.03em; line-height: 1.05;
     margin: 0;
   }
-  h1 { font-size: 72px; text-transform: uppercase; letter-spacing: -.03em; }
+  h1 { font-size: 96px; text-transform: uppercase; letter-spacing: -.04em; }
   h2 {
-    font-size: 42px; text-transform: uppercase;
-    margin: 32px 0 16px; padding-top: 8px;
-    letter-spacing: -.02em;
+    font-size: 56px; text-transform: uppercase;
+    margin: 48px 0 24px; padding-top: 16px;
+    letter-spacing: -.03em;
   }
   h3 {
-    font-size: 20px; letter-spacing: .02em; text-transform: uppercase;
-    color: var(--yellow); margin: 32px 0 12px;
+    font-size: 28px; letter-spacing: 0; text-transform: uppercase;
+    color: var(--yellow); margin: 40px 0 16px;
+    font-weight: 800;
   }
-  p { margin: 0 0 16px; }
-  strong { font-weight: 600; }
-  a { color: var(--yellow); text-decoration: underline; text-decoration-thickness: 1px; }
-  .lede { font-size: 19px; line-height: 1.5; max-width: 680px; color: var(--ink); margin-bottom: 24px; }
+  p { margin: 0 0 20px; }
+  strong { font-weight: 700; }
+  a { color: var(--yellow); text-decoration: underline; text-decoration-thickness: 2px; }
+  .lede { font-size: 24px; line-height: 1.5; max-width: 780px; color: var(--ink); margin-bottom: 32px; font-weight: 500; }
   .muted { color: var(--muted); }
-  .rule { border: 0; border-top: 1px solid var(--line); margin: 32px 0; }
-  .rule-y { border: 0; border-top: 2px solid var(--yellow); margin: 24px 0 32px; }
+  .rule { border: 0; border-top: 1px solid var(--line); margin: 48px 0; }
+  .rule-y { border: 0; border-top: 3px solid var(--yellow); margin: 32px 0 48px; }
   .sec {
     page-break-before: always;
-    padding: 48px 0 16px;
-    border-top: 1px solid var(--line);
-    margin-top: 48px;
+    padding: 64px 0 24px;
+    border-top: 2px solid var(--line);
+    margin-top: 64px;
   }
   .sec:first-of-type { page-break-before: auto; margin-top: 0; }
   .kicker {
     font-family: "JetBrains Mono", monospace;
-    font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
-    color: var(--yellow); margin-bottom: 8px;
+    font-size: 14px; letter-spacing: .15em; text-transform: uppercase;
+    color: var(--yellow); margin-bottom: 16px;
+    font-weight: 700;
+    background: var(--bg-2);
+    display: inline-block;
+    padding: 8px 16px;
+    border: 1px solid var(--line);
   }
   .num {
     font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-    font-size: 12px; letter-spacing: .1em;
+    font-size: 14px; letter-spacing: .08em;
     color: var(--dim);
   }
-  ul, ol { margin: 16px 0 24px; padding-left: 24px; }
-  li { margin: 0 0 8px; }
-  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px 32px; }
-  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+  ul, ol { margin: 20px 0 32px; padding-left: 32px; }
+  li { margin: 0 0 12px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 32px 48px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 28px; }
   .box, .callout, .danger, .sheet {
     background: var(--bg-2);
-    border: 1px solid var(--line);
-    padding: 20px 24px;
-    margin: 20px 0 24px;
+    border: 2px solid var(--line);
+    padding: 28px 32px;
+    margin: 28px 0 36px;
   }
-  .callout { border-left: 4px solid var(--yellow); }
-  .danger { border-left: 4px solid var(--rust); }
+  .callout { border-left: 6px solid var(--yellow); }
+  .danger { border-left: 6px solid var(--rust); }
   .sheet { background: var(--bg-3); }
   .label {
     font-family: "JetBrains Mono", monospace;
-    font-size: 10px; letter-spacing: .1em; text-transform: uppercase;
-    color: var(--muted); margin-bottom: 8px;
+    font-size: 12px; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 12px;
+    font-weight: 600;
   }
-  table { width: 100%; border-collapse: collapse; margin: 16px 0 24px; font-size: 14px; }
-  th, td { border: 1px solid var(--line); padding: 10px 12px; text-align: left; vertical-align: top; }
+  table { width: 100%; border-collapse: collapse; margin: 24px 0 36px; font-size: 16px; }
+  th, td { border: 1px solid var(--line); padding: 14px 16px; text-align: left; vertical-align: top; }
   th {
     font-family: "JetBrains Mono", monospace;
-    font-size: 11px; letter-spacing: .06em; text-transform: uppercase;
-    color: var(--yellow); background: var(--bg-3); font-weight: 500;
+    font-size: 13px; letter-spacing: .05em; text-transform: uppercase;
+    color: var(--yellow); background: var(--bg-3); font-weight: 600;
   }
   code, .mono {
     font-family: "JetBrains Mono", monospace;
-    font-size: 13px;
+    font-size: 15px;
   }
   pre {
-    background: #050505;
-    border: 1px solid var(--line);
+    background: #000;
+    border: 2px solid var(--line);
     color: var(--ok);
     font-family: "JetBrains Mono", monospace;
-    font-size: 13px; line-height: 1.5;
-    padding: 16px 20px; overflow: auto;
+    font-size: 15px; line-height: 1.6;
+    padding: 20px 24px; overflow: auto;
     white-space: pre-wrap;
   }
-  .prompt { border-left: 3px solid var(--yellow-dim); }
-  .cover { min-height: 85vh; display: flex; flex-direction: column; justify-content: space-between; padding: 16px 0 32px; }
+  .prompt { border-left: 4px solid var(--yellow-dim); }
+  .cover { min-height: 85vh; display: flex; flex-direction: column; justify-content: space-between; padding: 24px 0 48px; }
   .cover-grid {
-    display: grid; grid-template-columns: 100px 1fr;
-    gap: 24px; align-items: start; margin-top: 48px;
+    display: grid; grid-template-columns: 120px 1fr;
+    gap: 32px; align-items: start; margin-top: 64px;
   }
   .hash {
     writing-mode: vertical-rl; transform: rotate(180deg);
     font-family: "JetBrains Mono", monospace;
-    letter-spacing: .18em; font-size: 12px; color: var(--dim);
-    border-right: 1px solid var(--line); padding-right: 16px; height: 300px;
+    letter-spacing: .15em; font-size: 14px; color: var(--dim);
+    border-right: 2px solid var(--line); padding-right: 20px; height: 350px;
   }
-  .bars { display: flex; gap: 8px; margin: 24px 0 12px; }
-  .bars span { height: 10px; }
-  .bars .y { width: 80px; background: var(--yellow); }
-  .bars .r { width: 20px; background: var(--rust); }
-  .bars .d { width: 140px; background: var(--line); }
+  .bars { display: flex; gap: 10px; margin: 32px 0 16px; }
+  .bars span { height: 12px; }
+  .bars .y { width: 100px; background: var(--yellow); }
+  .bars .r { width: 24px; background: var(--rust); }
+  .bars .d { width: 180px; background: var(--line); }
   .toc a { color: var(--ink); text-decoration: none; }
   .toc a:hover { color: var(--yellow); text-decoration: underline; }
-  .toc td:last-child { color: var(--muted); font-family: "JetBrains Mono", monospace; font-size: 12px; }
+  .toc td:last-child { color: var(--muted); font-family: "JetBrains Mono", monospace; font-size: 14px; }
   .line, .lines {
     border-bottom: 1px solid var(--line);
-    min-height: 32px; margin: 8px 0;
+    min-height: 40px; margin: 10px 0;
   }
-  .lines.tall { min-height: 80px; }
-  .check { display: flex; gap: 12px; align-items: flex-start; margin: 8px 0; }
+  .lines.tall { min-height: 100px; }
+  .check { display: flex; gap: 16px; align-items: flex-start; margin: 12px 0; }
   .boxx {
-    width: 14px; height: 14px; margin-top: 4px; flex: 0 0 14px;
-    border: 1px solid var(--yellow);
+    width: 18px; height: 18px; margin-top: 5px; flex: 0 0 18px;
+    border: 2px solid var(--yellow);
   }
   .foot {
     display: flex; justify-content: space-between;
     font-family: "JetBrains Mono", monospace;
-    font-size: 10px; letter-spacing: .08em; text-transform: uppercase;
-    color: var(--dim); margin-top: 40px; border-top: 1px solid var(--line); padding-top: 16px;
+    font-size: 12px; letter-spacing: .05em; text-transform: uppercase;
+    color: var(--dim); margin-top: 56px; border-top: 2px solid var(--line); padding-top: 20px;
   }
   .pill {
-    display: inline-block; background: var(--yellow); color: #111;
+    display: inline-block; background: var(--yellow); color: #000;
     font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-    font-weight: 700;
-    letter-spacing: .02em; padding: 6px 12px; font-size: 14px;
+    font-weight: 900;
+    letter-spacing: 0; padding: 8px 16px; font-size: 16px;
   }
-  .small { font-size: 13px; color: var(--muted); }
-  .ws { page-break-inside: avoid; margin: 24px 0 32px; }
-  .fill-3 .line { margin-bottom: 12px; }
+  .small { font-size: 15px; color: var(--muted); }
+  .ws { page-break-inside: avoid; margin: 32px 0 40px; }
+  .fill-3 .line { margin-bottom: 16px; }
   @media print {
     .print-hint { display: none !important; }
     .wrap { max-width: none; padding: 0; }
-    .cover { min-height: 1000px; }
+    .cover { min-height: 1100px; }
     .sec { page-break-before: always; }
     a { text-decoration: none; }
     pre { break-inside: avoid; }
     .ws, .box, .callout, .danger, .sheet { break-inside: avoid; }
   }
-  @page { size: letter; margin: .6in; }
+  @page { size: letter; margin: .5in; }
 </style>
 </head>
 <body>
@@ -229,43 +238,53 @@
   <hr class="rule-y" />
   <div class="grid-2">
     <div>
-      <h3 style="margin-top:0">Foundation</h3>
-      <ul style="list-style:none; padding-left:0; margin:0 0 24px;">
-        <li style="margin:0 0 8px;"><a href="#use" style="font-weight:600;">00 · How to use this manual</a></li>
-        <li style="margin:0 0 8px;"><a href="#mind" style="font-weight:600;">01 · The only mindset you need</a></li>
-        <li style="margin:0 0 8px;"><a href="#basics" style="font-weight:600;">02 · Website basics</a></li>
-        <li style="margin:0 0 8px;"><a href="#loop" style="font-weight:600;">03 · The whole process</a></li>
-      </ul>
-      <h3 style="margin-top:0">Planning</h3>
-      <ul style="list-style:none; padding-left:0; margin:0 0 24px;">
-        <li style="margin:0 0 8px;"><a href="#gather" style="font-weight:600;">04 · Gather</a></li>
-        <li style="margin:0 0 8px;"><a href="#decide" style="font-weight:600;">05 · Decide</a></li>
-        <li style="margin:0 0 8px;"><a href="#brief" style="font-weight:600;">06 · Write the brief</a></li>
-      </ul>
-      <h3 style="margin-top:0">Building</h3>
-      <ul style="list-style:none; padding-left:0; margin:0 0 24px;">
-        <li style="margin:0 0 8px;"><a href="#prompt" style="font-weight:600;">07 · Prompting that works</a></li>
-        <li style="margin:0 0 8px;"><a href="#design" style="font-weight:600;">08 · Design principles</a></li>
-        <li style="margin:0 0 8px;"><a href="#dev" style="font-weight:600;">09 · Build tactics</a></li>
-        <li style="margin:0 0 8px;"><a href="#ai" style="font-weight:600;">10 · AI through the whole process</a></li>
-      </ul>
+      <div style="background:var(--bg-2); border:2px solid var(--line); padding:20px 24px; margin-bottom:24px;">
+        <h3 style="margin:0 0 16px; color:var(--yellow);">FOUNDATION</h3>
+        <ul style="list-style:none; padding-left:0; margin:0;">
+          <li style="margin:0 0 12px;"><a href="#use" style="font-weight:700; font-size:16px;">00 · How to use this manual</a></li>
+          <li style="margin:0 0 12px;"><a href="#mind" style="font-weight:700; font-size:16px;">01 · The only mindset you need</a></li>
+          <li style="margin:0 0 12px;"><a href="#basics" style="font-weight:700; font-size:16px;">02 · Website basics</a></li>
+          <li style="margin:0 0 0;"><a href="#loop" style="font-weight:700; font-size:16px;">03 · The whole process</a></li>
+        </ul>
+      </div>
+      <div style="background:var(--bg-2); border:2px solid var(--line); padding:20px 24px; margin-bottom:24px;">
+        <h3 style="margin:0 0 16px; color:var(--yellow);">PLANNING</h3>
+        <ul style="list-style:none; padding-left:0; margin:0;">
+          <li style="margin:0 0 12px;"><a href="#gather" style="font-weight:700; font-size:16px;">04 · Gather</a></li>
+          <li style="margin:0 0 12px;"><a href="#decide" style="font-weight:700; font-size:16px;">05 · Decide</a></li>
+          <li style="margin:0 0 0;"><a href="#brief" style="font-weight:700; font-size:16px;">06 · Write the brief</a></li>
+        </ul>
+      </div>
+      <div style="background:var(--bg-2); border:2px solid var(--line); padding:20px 24px;">
+        <h3 style="margin:0 0 16px; color:var(--yellow);">BUILDING</h3>
+        <ul style="list-style:none; padding-left:0; margin:0;">
+          <li style="margin:0 0 12px;"><a href="#prompt" style="font-weight:700; font-size:16px;">07 · Prompting that works</a></li>
+          <li style="margin:0 0 12px;"><a href="#design" style="font-weight:700; font-size:16px;">08 · Design principles</a></li>
+          <li style="margin:0 0 12px;"><a href="#dev" style="font-weight:700; font-size:16px;">09 · Build tactics</a></li>
+          <li style="margin:0 0 0;"><a href="#ai" style="font-weight:700; font-size:16px;">10 · AI through the whole process</a></li>
+        </ul>
+      </div>
     </div>
     <div>
-      <h3 style="margin-top:0">Review & Ship</h3>
-      <ul style="list-style:none; padding-left:0; margin:0 0 24px;">
-        <li style="margin:0 0 8px;"><a href="#review" style="font-weight:600;">11 · Director's review</a></li>
-        <li style="margin:0 0 8px;"><a href="#example" style="font-weight:600;">12 · Full example</a></li>
-        <li style="margin:0 0 8px;"><a href="#talk" style="font-weight:600;">13 · What to say to AI</a></li>
-        <li style="margin:0 0 8px;"><a href="#code" style="font-weight:600;">14 · Code literacy</a></li>
-        <li style="margin:0 0 8px;"><a href="#ship" style="font-weight:600;">15 · Ship</a></li>
-        <li style="margin:0 0 8px;"><a href="#v2" style="font-weight:600;">16 · Version 2 discipline</a></li>
-      </ul>
-      <h3 style="margin-top:0">Tools</h3>
-      <ul style="list-style:none; padding-left:0; margin:0 0 24px;">
-        <li style="margin:0 0 8px;"><a href="#cheat" style="font-weight:600;">17 · Sticky-note cheatsheet</a></li>
-        <li style="margin:0 0 8px;"><a href="#ws" style="font-weight:600;">Worksheets W1–W11</a></li>
-        <li style="margin:0 0 8px;"><a href="#sessions" style="font-weight:600;">Session scripts 1–2</a></li>
-      </ul>
+      <div style="background:var(--bg-2); border:2px solid var(--line); padding:20px 24px; margin-bottom:24px;">
+        <h3 style="margin:0 0 16px; color:var(--yellow);">REVIEW & SHIP</h3>
+        <ul style="list-style:none; padding-left:0; margin:0;">
+          <li style="margin:0 0 12px;"><a href="#review" style="font-weight:700; font-size:16px;">11 · Director's review</a></li>
+          <li style="margin:0 0 12px;"><a href="#example" style="font-weight:700; font-size:16px;">12 · Full example</a></li>
+          <li style="margin:0 0 12px;"><a href="#talk" style="font-weight:700; font-size:16px;">13 · What to say to AI</a></li>
+          <li style="margin:0 0 12px;"><a href="#code" style="font-weight:700; font-size:16px;">14 · Code literacy</a></li>
+          <li style="margin:0 0 12px;"><a href="#ship" style="font-weight:700; font-size:16px;">15 · Ship</a></li>
+          <li style="margin:0 0 0;"><a href="#v2" style="font-weight:700; font-size:16px;">16 · Version 2 discipline</a></li>
+        </ul>
+      </div>
+      <div style="background:var(--bg-2); border:2px solid var(--line); padding:20px 24px;">
+        <h3 style="margin:0 0 16px; color:var(--yellow);">TOOLS</h3>
+        <ul style="list-style:none; padding-left:0; margin:0;">
+          <li style="margin:0 0 12px;"><a href="#cheat" style="font-weight:700; font-size:16px;">17 · Sticky-note cheatsheet</a></li>
+          <li style="margin:0 0 12px;"><a href="#ws" style="font-weight:700; font-size:16px;">Worksheets W1–W11</a></li>
+          <li style="margin:0 0 0;"><a href="#sessions" style="font-weight:700; font-size:16px;">Session scripts 1–2</a></li>
+        </ul>
+      </div>
     </div>
   </div>
   <div class="callout">
