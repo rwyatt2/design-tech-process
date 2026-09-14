@@ -1,10 +1,10 @@
-# Anti-Slop Website Playbook
+# Design Tech Process
 
 A field manual for building real websites with AI without making generic junk.
 
 ## About
 
-This playbook teaches students how to use AI as a tool rather than a replacement for thinking. The core principle: **AI can type. You have to decide.**
+This manual teaches beginners how to use AI as a tool rather than a replacement for thinking. The core principle: **AI can type. You have to decide.**
 
 ### What This Is
 
@@ -12,7 +12,7 @@ This playbook teaches students how to use AI as a tool rather than a replacement
 - Worksheets for planning before prompting
 - Prompting strategies that work
 - Design principles that prevent slop
-- Session scripts for coaches
+- Session scripts for guided learning
 
 ### What This Is Not
 
@@ -22,7 +22,7 @@ This playbook teaches students how to use AI as a tool rather than a replacement
 
 ## View the Manual
 
-Open `index.html` in your browser to read the full playbook.
+Open `index.html` in your browser to read the full manual.
 
 ## Print as PDF
 
@@ -37,4 +37,4 @@ This is educational material. Use it to build better things.
 
 ---
 
-**DOC NO. ASWP-01 · REV 01 · STUDENT EDITION**
+**DOC NO. DTP-01 · REV 01 · FIELD MANUAL**
